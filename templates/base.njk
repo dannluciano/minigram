@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between clearfix">
+      <a class="navbar-brand" href="/">Minigram</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/cadastrar">Cadastrar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/entrar">Entrar</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/publicar">Publicar</a>
+          </li>
+        </ul>
+
+        <form action="/pesquisar" class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Pesquisa..." aria-label="Search">
+          <button class="btn btn-outline-info" type="submit">Pesquisar</button>
+        </form>
+
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/perfil">Perfil (@dannluciano)</a>
+          </li>
+          <li class="nav-item">
+            <form action="/sair" method="post" class="form-inline">
+              <input type="hidden" name="_csrf" value="{{csrf}}">
+              <button class="btn btn-link nav-link" style="border-top-width: 2px;">Sair</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+      <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+  </header>
+  <div class="container mt-2">
+    {% block conteudo %}
+    <div class="publicacoes">
+      <article class="publicacao">
+        <div class="border border-top-0 border-right-0 border-left-0 mb-1 pt-1 pb-1">
+          <a href="/perfil/dannluciano">
+            <img src="/imgs/2.jpg" alt="" width="48px" heigth="48px" class="rounded-circle"> @dannluciano
+          </a>
+        </div>
+        <figure class="figure text-center">
+          <img src="/imgs/1.jpg" alt="" class="img-fluid rounded mx-auto">
+          <br />
+          <figcaption class="figure-caption text-justify mt-2">
+            <strong>dannluciano</strong>: Lorem ipsum dolor sit amet consectetur adipisicing elit. Non perferendis minima aspernatur
+            quibusdam veniam? Deserunt modi, voluptas obcaecati itaque maiores cumque iure cupiditate sint magnam ratione
+            expedita, rerum, odio facilis! Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere quos placeat
+            atque natus, omnis alias obcaecati numquam necessitatibus temporibus fugit deleniti nisi, praesentium iure quibusdam
+            dolor nostrum quidem inventore eum!
+          </figcaption>
+        </figure>
+        <p class="text-justify">
+          <strong>fulanodetal</strong>: Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, labore amet quibusdam dolores
+          iusto asperiores numquam, fuga ex ut assumenda voluptates magni ea dolore sed similique officiis doloribus. Illum,
+          animi.
+        </p>
+        <p class="text-justify">
+          <strong>cicrano</strong>: Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, labore amet quibusdam dolores
+          iusto asperiores numquam, fuga ex ut assumenda voluptates magni ea dolore sed similique officiis doloribus. Illum,
+          animi.
+        </p>
+        <p class="text-justify">
+          <strong>beltrano</strong>: Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis, labore amet quibusdam dolores
+          iusto asperiores numquam, fuga ex ut assumenda voluptates magni ea dolore sed similique officiis doloribus. Illum,
+          animi.
+        </p>
+        <form action="/publicacoes/1/comentar" method="post" class="form">
+          <input type="hidden" name="_csrf" value="{{csrf}}">
+          <div class="clearfix">
+            <div class="form-group">
+              <textarea class="form-control" rows="3" placeholder="Comentario..."></textarea>
+              <button class="btn mt-1 float-right">Comentar</button>
+            </div>
+          </div>
+        </form>
+      </article>
+      <br />
+    </div>
+    {% endblock %}
+  </div>
+
+</body>
+
+</html>

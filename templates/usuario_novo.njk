@@ -1,0 +1,27 @@
+{% extends 'base.njk' %} {% block conteudo %}
+
+<form action="/cadastrar" method="post" class="form">
+
+  <h2>Novo Usuario</h2>
+
+  {% if usuario.erros %}
+  <div class="alert alert-danger" role="alert">
+    <ul>
+      {% for erro in usuario.erros %}
+      <li class="erro">
+        {{erro.msg}}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %} 
+  
+  {% include 'usuario_campos.njk' %}
+
+  <div class="form-group">
+    <button class="btn btn-success">Criar Novo Usuario</button>
+  </div>
+
+</form>
+
+{% endblock%}

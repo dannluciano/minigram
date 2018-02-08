@@ -1,0 +1,21 @@
+{
+  "name": "minigram",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express-generator": "^4.15.5",
+    "express-validator": "^4.3.0",
+    "nunjucks": "^3.0.1",
+    "pg-promise": "^7.4.1",
+    "server": "^1.0.17",
+    "validator": "^9.4.0"
+  }
+}
