@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS usuarios(
 CREATE TABLE IF NOT EXISTS publicacoes(
 	id SERIAL PRIMARY KEY,
     localizacao varchar(255),
-    foto varchar(255) not null,
+    foto varchar(512) not null,
     legenda text,
     filtro varchar(50) not null default '',
     dono bigint NOT NULL,

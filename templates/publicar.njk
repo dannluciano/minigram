@@ -1,0 +1,74 @@
+{% extends 'base.njk' %} {% block conteudo %}
+
+<form action="/publicar" method="post" encType="multipart/form-data" class="form">
+
+  <h2>Nova Publicação</h2>
+
+  {% if publicacao.erros %}
+  <div class="alert alert-danger" role="alert">
+    <ul>
+      {% for erro in publicacao.erros %}
+      <li class="erro">
+        {{erro.msg}}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %} 
+  
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+
+  <div class="form-group">
+    <label for="localizacao">Localizacao:</label>
+    <input class="form-control" type="text" name="localizacao" id="localizacao" value="{{publicacao.localizacao}}">
+  </div>
+
+  <div class="form-group">
+    <label for="foto">Foto:</label>
+    <input class="form-control" type="file" accept="image/*" name="foto" id="foto" value="{{publicacao.foto}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="legenda">Legenda:</label>
+    <textarea class="form-control" name="legenda" id="legenda" value="{{publicacao.legenda}}"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="filtro">Filtro:</label>
+    <select class="form-control" type="text" name="filtro" id="filtro">
+      <option value="_1977">1977</option>
+      <option value="aden">aden</option>
+      <option value="brannan">brannan</option>
+      <option value="brooklyn">brooklyn</option>
+      <option value="clarendon">clarendon</option>
+      <option value="earlybird">earlybird</option>
+      <option value="gingham">gingham</option>
+      <option value="hudson">hudson</option>
+      <option value="inkwell">inkwell</option>
+      <option value="kelvin">kelvin</option>
+      <option value="lark">lark</option>
+      <option value="lofi">lofi</option>
+      <option value="maven">maven</option>
+      <option value="mayfair">mayfair</option>
+      <option value="moon">moon</option>
+      <option value="nashville">nashville</option>
+      <option value="perpetua">perpetua</option>
+      <option value="reyes">reyes</option>
+      <option value="rise">rise</option>
+      <option value="slumber">slumber</option>
+      <option value="stinson">stinson</option>
+      <option value="toaster">toaster</option>
+      <option value="valencia">valencia</option>
+      <option value="walden">walden</option>
+      <option value="willow">willow</option>
+      <option value="xpro2">xpro2</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-success">Publicar</button>
+  </div>
+
+</form>
+
+{% endblock%}
