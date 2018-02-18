@@ -2,22 +2,22 @@ const db = require('../db')
 
 const Minio = require('minio')
 
+let https = false
+let port = 9000
+if (process.env['NODE_ENV'] === 'production') {
+  https = true
+  port = 443
+}
+
 const minioClient = new Minio.Client({
-  endPoint: 'static.dannluciano.com.br',
-  secure: true,
-  accessKey: 'T1194WMPGIWYY0FKWRT4',
-  secretKey: '1Ton4PMstShWUFnXsu4ZbNZZmS44ZK6bctdhhZS4'
+  endPoint: process.env['S3_URL'] || 'localhost',
+  port: port,
+  secure: https,
+  accessKey: process.env['S3_ACCESS_KEY'] || '1234567890',
+  secretKey: process.env['S3_SECRET_KEY'] || '1112131415'
 })
 
-// var minioClient = new Minio.Client({
-//   endPoint: 'play.minio.io',
-//   port: 9000,
-//   secure: true,
-//   accessKey: 'Q3AM3UQ867SPQQA43P2F',
-//   secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
-// })
-
-const bucket = 'minigram'
+const bucket = process.env['S3_BUCKET'] || 'minigram'
 
 class Publicacao {
   constructor (pub, foto, dono) {
@@ -46,6 +46,8 @@ class Publicacao {
       return true
     } catch (e) {
       console.error(e)
+      console.error(this.foto.path)
+      this.erros.push({'msg': 'Falha no Envio da Imagem! Verifique sua Internet e tente novamente.'})
       return false
     }
   }

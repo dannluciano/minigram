@@ -1,4 +1,6 @@
-{% extends 'base.njk' %} {% block conteudo %}
+{% extends 'base.njk' %} 
+
+{% block conteudo %}
 
 <form action="/publicar" method="post" encType="multipart/form-data" class="form">
 
@@ -14,8 +16,8 @@
       {% endfor %}
     </ul>
   </div>
-  {% endif %} 
-  
+  {% endif %}
+
   <input type="hidden" name="_csrf" value="{{csrf}}">
 
   <div class="form-group">
@@ -24,8 +26,9 @@
   </div>
 
   <div class="form-group">
-    <label for="foto">Foto:</label>
-    <input class="form-control" type="file" accept="image/*" name="foto" id="foto" value="{{publicacao.foto}}" required>
+    <input class="form-control" type="file" accept="image/*" name="foto" id="foto" value="" onchange="handleFiles(this.files)"
+      required>
+    <img id="image-render" class="img-fluid rounded mx-auto d-none">
   </div>
 
   <div class="form-group">
@@ -35,7 +38,7 @@
 
   <div class="form-group">
     <label for="filtro">Filtro:</label>
-    <select class="form-control" type="text" name="filtro" id="filtro">
+    <select class="form-control" name="filtro" id="filtro" onchange="applyFilter()">
       <option value="_1977">1977</option>
       <option value="aden">aden</option>
       <option value="brannan">brannan</option>
@@ -68,6 +71,27 @@
   <div class="form-group">
     <button class="btn btn-success">Publicar</button>
   </div>
+
+  <script>
+    window.URL = window.URL || window.webkitURL;
+
+    var fileElem = document.getElementById("foto"),
+      img = document.getElementById("image-render");
+
+    function handleFiles(files) {
+      if (!files.length) {
+        console.log("No files selected!");
+      } else {
+        img.src = window.URL.createObjectURL(files[0]);
+        fileElem.classList.toggle('d-none')
+        img.classList.toggle('d-none')
+      }
+    }
+
+    function applyFilter () {
+      img.className = "img-fluid rounded mx-auto " + filtro.value
+    }
+  </script>
 
 </form>
 

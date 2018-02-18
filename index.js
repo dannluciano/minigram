@@ -7,6 +7,10 @@ const Publicacao = require('./models/publicacao')
 const {get, post, error} = server.router
 const {render, status, redirect} = server.reply
 
+const logger = ctx => {
+  ctx.log.info(`Pid ${process.pid} - ${ctx.method} ${ctx.url}`)
+}
+
 const indexHandler = ctx => {
   return render('base.njk', {title: 'Minigram'})
 }
@@ -40,6 +44,7 @@ const publicar = async ctx => {
 const opcoes = {}
 
 const rotas = [
+  [logger],
   get('/', indexHandler),
   get('/entrar', indexHandler),
   post('/entrar', indexHandler),
