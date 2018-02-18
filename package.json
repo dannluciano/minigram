@@ -18,5 +18,8 @@
     "pg-promise": "^7.4.1",
     "server": "^1.0.17",
     "validator": "^9.4.0"
+  },
+  "engines": {
+    "node": "8.9.4"
   }
 }
