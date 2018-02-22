@@ -34,6 +34,22 @@ class Publicacao {
     return this.erros.length === 0
   }
 
+  static async getAll () {
+    try {
+      return await db.any('SELECT * FROM publicacoes ORDER BY id DESC LIMIT 20')
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  static async get (id) {
+    try {
+      return await db.one('SELECT * FROM publicacoes WHERE id = $1', id)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   async save () {
     try {
       await minioClient.fPutObject(bucket, this.foto.name, this.foto.path, this.foto.type)

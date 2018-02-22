@@ -1,4 +1,4 @@
-const filters = ["1977", "aden", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson",  "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
+const filters = ["", "1977", "aden", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson",  "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
 window.URL = window.URL || window.webkitURL
 
 var fileElem = document.getElementById("foto"),

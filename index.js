@@ -41,11 +41,22 @@ const publicar = async ctx => {
   }
 }
 
+const paginaPublicacoes = async ctx => {
+  const publicacoes = await Publicacao.getAll()
+  return render('publicacoes.njk', {publicacoes: publicacoes})
+}
+
+const paginaPublicacao = async ctx => {
+  const id = ctx.params.id
+  const publicacao = await Publicacao.get(id)
+  return render('publicacao.njk', {publicacao: publicacao})
+}
+
 const opcoes = {}
 
 const rotas = [
   [logger],
-  get('/', indexHandler),
+  get('/', paginaPublicacoes),
   get('/entrar', indexHandler),
   post('/entrar', indexHandler),
   post('/sair', indexHandler),
@@ -56,7 +67,7 @@ const rotas = [
   get('/pesquisar', indexHandler),
   get('/publicar', publicarForm),
   post('/publicar', publicar),
-  get('/publicacoes/:id', indexHandler),
+  get('/publicacoes/:id', paginaPublicacao),
   post('/publicacoes/:id/comentar', indexHandler),
   error(ctx => {
     console.error(ctx.error.message)

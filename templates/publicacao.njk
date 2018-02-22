@@ -1,0 +1,47 @@
+{% extends 'base.njk' %} {% block conteudo %}
+
+<div class="publicacoes">
+  <article class="publicacao mb-2">
+    <div class="border border-top-0 border-right-0 border-left-0 mb-1 pt-1 pb-1">
+      <a href="/perfil/dannluciano">
+        <img src="/imgs/2.jpg" alt="" width="48px" heigth="48px" class="rounded-circle"> @dannluciano
+      </a>
+      {% if publicacao.localizacao %} em {{ publicacao.localizacao }} {% endif %}
+    </div>
+    <a href="/publicacoes/{{ publicacao.id }}">
+      <figure class="figure text-center">
+        <img src="{{ publicacao.foto }}" alt="" class="img-fluid rounded mx-auto {{ publicacao.filtro }}">
+        <br />
+        {% if publicacao.legenda %}
+          <figcaption class="figure-caption text-justify mt-2">
+            <strong>dannluciano</strong>: {{ publicacao.legenda }}
+          </figcaption>
+        {% endif %}
+      </figure>
+    </a>
+    <section>
+      {% for comentario in comentarios %}
+        <p class="text-justify">
+          <strong>{{ comentario.usuario }}</strong>: {{ comentario.conteudo }}
+        </p>
+      {% else%}
+        <p class="text-justify">
+          Ainda não existem comentarios. Seja o primeiro a comentar!
+        </p>
+      {% endfor %}
+      <form action="/publicacoes/{{ publicacao.id }}/comentar" method="post" class="form">
+        <input type="hidden" name="_csrf" value="{{csrf}}">
+        <div class="clearfix">
+          <div class="form-group">
+            <textarea class="form-control" rows="3" placeholder="Comentario..."></textarea>
+            <button class="btn mt-1 float-right">Comentar</button>
+          </div>
+        </div>
+      </form>
+    </section>
+  </article>
+
+  <br />
+</div>
+
+{% endblock %}
