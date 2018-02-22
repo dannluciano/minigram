@@ -37,7 +37,7 @@ class Publicacao {
   async save () {
     try {
       await minioClient.fPutObject(bucket, this.foto.name, this.foto.path, this.foto.type)
-      this.path = 'https://static.dannluciano.com.br/' + bucket + '/' + this.foto.name
+      this.path = minioClient.protocol + '//' + minioClient.host + ':' + minioClient.port + '/' + bucket + '/' + this.foto.name
       console.log('Arquivo enviado com Sucesso: ', this.path)
 
       await db.none(`INSERT INTO publicacoes (localizacao, foto, legenda, filtro, dono) 
@@ -46,7 +46,6 @@ class Publicacao {
       return true
     } catch (e) {
       console.error(e)
-      console.error(this.foto.path)
       this.erros.push({'msg': 'Falha no Envio da Imagem! Verifique sua Internet e tente novamente.'})
       return false
     }

@@ -32,67 +32,18 @@
   </div>
 
   <div class="form-group">
+    <pre id="filtersContainer"></pre>
+  </div>
+  
+  <div class="form-group">
     <label for="legenda">Legenda:</label>
     <textarea class="form-control" name="legenda" id="legenda" value="{{publicacao.legenda}}"></textarea>
   </div>
 
   <div class="form-group">
-    <label for="filtro">Filtro:</label>
-    <select class="form-control" name="filtro" id="filtro" onchange="applyFilter()">
-      <option value="_1977">1977</option>
-      <option value="aden">aden</option>
-      <option value="brannan">brannan</option>
-      <option value="brooklyn">brooklyn</option>
-      <option value="clarendon">clarendon</option>
-      <option value="earlybird">earlybird</option>
-      <option value="gingham">gingham</option>
-      <option value="hudson">hudson</option>
-      <option value="inkwell">inkwell</option>
-      <option value="kelvin">kelvin</option>
-      <option value="lark">lark</option>
-      <option value="lofi">lofi</option>
-      <option value="maven">maven</option>
-      <option value="mayfair">mayfair</option>
-      <option value="moon">moon</option>
-      <option value="nashville">nashville</option>
-      <option value="perpetua">perpetua</option>
-      <option value="reyes">reyes</option>
-      <option value="rise">rise</option>
-      <option value="slumber">slumber</option>
-      <option value="stinson">stinson</option>
-      <option value="toaster">toaster</option>
-      <option value="valencia">valencia</option>
-      <option value="walden">walden</option>
-      <option value="willow">willow</option>
-      <option value="xpro2">xpro2</option>
-    </select>
-  </div>
-
-  <div class="form-group">
     <button class="btn btn-success">Publicar</button>
   </div>
-
-  <script>
-    window.URL = window.URL || window.webkitURL;
-
-    var fileElem = document.getElementById("foto"),
-      img = document.getElementById("image-render");
-
-    function handleFiles(files) {
-      if (!files.length) {
-        console.log("No files selected!");
-      } else {
-        img.src = window.URL.createObjectURL(files[0]);
-        fileElem.classList.toggle('d-none')
-        img.classList.toggle('d-none')
-      }
-    }
-
-    function applyFilter () {
-      img.className = "img-fluid rounded mx-auto " + filtro.value
-    }
-  </script>
-
+  <script src="/js/aplicacao.js"></script>
 </form>
 
 {% endblock%}

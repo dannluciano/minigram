@@ -12,3 +12,16 @@
   border-radius: 0.25rem;
   transition: all 0.2s ease-in-out;
 }
+
+label > input[type=radio] {
+  display: inline-block;
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+label > input[type=radio] + img { /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label > input[type=radio]:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  border: 1px solid gray;
+}
