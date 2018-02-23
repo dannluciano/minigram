@@ -26,8 +26,9 @@
   </div>
 
   <div class="form-group">
-    <input class="form-control" type="file" accept="image/*" name="foto" id="foto" value="" onchange="handleFiles(this.files)"
-      required>
+    <label id="fileButton" class="btn btn-info">
+      Selecionar Imagem!<input class="form-control" type="file" accept="image/*" name="foto" id="foto" value="" onchange="handleFiles(this.files)" required hidden>
+    </label>
     <img id="image-render" class="img-fluid rounded mx-auto d-none">
   </div>
 
@@ -43,7 +44,10 @@
   <div class="form-group">
     <button class="btn btn-success">Publicar</button>
   </div>
-  <script src="/js/aplicacao.js"></script>
 </form>
 
+{% endblock%}
+
+{% block js%}
+  <script src="/js/aplicacao.js"></script>
 {% endblock%}

@@ -25,3 +25,11 @@ label > input[type=radio] + img { /* IMAGE STYLES */
 label > input[type=radio]:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
   border: 1px solid gray;
 }
+
+[hidden] {
+  display: none !important;
+}
+
+#filtersContainer {
+  position: relative;
+}
