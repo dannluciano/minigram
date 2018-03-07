@@ -1,0 +1,35 @@
+{% extends 'base.njk' %} {% block conteudo %}
+
+<form action="/entrar" method="post" class="form">
+
+  <h2>Entrar no Minigram</h2>
+
+  {% if erro %}
+  <div class="alert alert-danger" role="alert">
+    <ul>
+      <li class="erro">
+        {{erro.msg}}
+      </li>
+    </ul>
+  </div>
+  {% endif %} 
+
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+
+  <div class="form-group">
+    <label for="nome">Nome de Usuario:</label>
+    <input class="form-control" type="text" name="nome" id="nome" value="{{usuario.nome}}" required>
+  </div>
+
+  <div class="form-group">
+    <label for="senha">Senha:</label>
+    <input class="form-control" type="password" name="senha" id="senha" value="{{usuario.senha}}" required>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-success">Entrar</button>
+  </div>
+
+</form>
+
+{% endblock%}

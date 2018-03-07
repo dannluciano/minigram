@@ -3,6 +3,7 @@ const server = require('server')
 
 const Usuario = require('./models/usuario')
 const Publicacao = require('./models/publicacao')
+const Upload = require('./models/upload.js')
 
 const {get, post, error} = server.router
 const {render, status, redirect} = server.reply
@@ -33,7 +34,8 @@ const publicarForm = ctx => {
 
 const publicar = async ctx => {
   const usuarioLogado = 1
-  const novaPublicacao = new Publicacao(ctx.data, ctx.files.foto, usuarioLogado)
+  const imageURL = Upload.getURL(ctx.data.foto)
+  const novaPublicacao = new Publicacao(ctx.data, imageURL, usuarioLogado)
   if (await novaPublicacao.save()) {
     return redirect('/')
   } else {
@@ -52,23 +54,21 @@ const paginaPublicacao = async ctx => {
   return render('publicacao.njk', {publicacao: publicacao})
 }
 
-const opcoes = {}
+const getUploadURL = async ctx => {
+  return Upload.getUploadURL(ctx.query.filename)
+}
+
+const opcoes = {
+  engine: 'nunjucks'
+}
 
 const rotas = [
   [logger],
-  get('/', paginaPublicacoes),
-  get('/entrar', indexHandler),
-  post('/entrar', indexHandler),
-  post('/sair', indexHandler),
-  get('/cadastrar', usuarioCadastarForm),
-  post('/cadastrar', usuarioCadastar),
   get('/perfil/', indexHandler),
   get('/perfil/:usuario', indexHandler),
   get('/pesquisar', indexHandler),
-  get('/publicar', publicarForm),
-  post('/publicar', publicar),
   get('/publicacoes/:id', paginaPublicacao),
-  post('/publicacoes/:id/comentar', indexHandler),
+  get('/upload-url', getUploadURL),
   error(ctx => {
     console.error(ctx.error.message)
     return status(500).send(ctx.error.message)
