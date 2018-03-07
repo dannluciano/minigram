@@ -3,6 +3,7 @@ const server = require('server')
 
 const Usuario = require('./models/usuario')
 const Publicacao = require('./models/publicacao')
+const Autenticacao = require('./models/autenticacao')
 const Upload = require('./models/upload.js')
 
 const {get, post, error} = server.router
@@ -54,21 +55,72 @@ const paginaPublicacao = async ctx => {
   return render('publicacao.njk', {publicacao: publicacao})
 }
 
+const paginaAutenticacao = ctx => {
+  return render('autenticacao.njk')
+}
+
+const iniciarAutenticacao = async ctx => {
+  const nome = ctx.data.nome
+  const senha = ctx.data.senha
+  if (await Autenticacao.autenticar(nome, senha, ctx.session)) {
+    return redirect('/')
+  } else {
+    return render('autenticacao.njk', {erro: {msg: 'Usuario e/ou Senha Inválidos!'}})
+  }
+}
+
+const finalizarAutenticacao = ctx => {
+  Autenticacao.finalizar(ctx.session)
+  return redirect('/entrar')
+}
+
 const getUploadURL = async ctx => {
   return Upload.getUploadURL(ctx.query.filename)
 }
 
+const autenticado = ctx => {
+  if (ctx.session.autenticado) {
+    ctx.res.locals.usuario = ctx.session.usuario
+    ctx.res.locals.email = ctx.session.email
+  } else {
+    const AuthError = new Error('User not authenticated')
+    AuthError.code = 'usuario.naoAutenticado'
+    throw AuthError
+  }
+}
+
+const naoAutenticado = ctx => {
+  if (ctx.session.autenticado) {
+    const AuthError = new Error('User Authenticated')
+    AuthError.code = 'usuario.autenticado'
+    throw AuthError
+  }
+}
 const opcoes = {
   engine: 'nunjucks'
 }
 
 const rotas = [
   [logger],
+  get('/', [autenticado, paginaPublicacoes]),
+  get('/entrar', [naoAutenticado, paginaAutenticacao]),
+  post('/entrar', [naoAutenticado, iniciarAutenticacao]),
+  post('/sair', [autenticado, finalizarAutenticacao]),
+  get('/cadastrar', [naoAutenticado, usuarioCadastarForm]),
+  post('/cadastrar', [naoAutenticado, usuarioCadastar]),
   get('/perfil/', indexHandler),
   get('/perfil/:usuario', indexHandler),
   get('/pesquisar', indexHandler),
+  get('/publicar', [autenticado, publicarForm]),
+  post('/publicar', [autenticado, publicar]),
   get('/publicacoes/:id', paginaPublicacao),
   get('/upload-url', getUploadURL),
+  error('usuario.naoAutenticado', ctx => {
+    return redirect('/entrar')
+  }),
+  error('usuario.autenticado', ctx => {
+    return redirect('/')
+  }),
   error(ctx => {
     console.error(ctx.error.message)
     return status(500).send(ctx.error.message)
