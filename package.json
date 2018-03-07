@@ -13,12 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "express-generator": "^4.15.5",
-    "express-validator": "^4.3.0",
     "minio": "^4.0.0",
-    "nunjucks": "^3.0.1",
-    "pg-promise": "^7.4.1",
-    "server": "^1.0.17",
-    "validator": "^9.4.0"
+    "nunjucks": "^3.1.2",
+    "pg-promise": "^7.5.4",
+    "server": "^1.0.18",
+    "waterline": "^0.13.1"
   },
   "engines": {
     "node": "8.9.4"
