@@ -19,6 +19,7 @@
   {% endif %}
 
   <input type="hidden" name="_csrf" value="{{csrf}}">
+  <input type="hidden" id="foto" name="foto" value="">
 
   <div class="form-group">
     <label for="localizacao">Localizacao:</label>
@@ -27,7 +28,7 @@
 
   <div class="form-group">
     <label id="fileButton" class="btn btn-info">
-      Selecionar Imagem!<input class="form-control" type="file" accept="image/*" name="foto" id="foto" value="" onchange="handleFiles(this.files)" required hidden>
+      Selecionar Imagem!<input class="form-control" type="file" accept="image/*" onchange="handleFiles(this.files)" required hidden>
     </label>
     <img id="image-render" class="img-fluid rounded mx-auto d-none">
   </div>

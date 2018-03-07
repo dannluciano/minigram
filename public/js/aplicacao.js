@@ -32,6 +32,17 @@ function handleFiles (files) {
 
       filtersContainer.appendChild(label)
     }
+
+    const firstFilter = document.querySelector('[type=radio]')
+    firstFilter.checked = true
+
+    const imageName = files[0].name.replace(/[^a-z0-9]+/g, '_')
+    fetch('/upload-url?filename=' + imageName).then(function (response) {
+      response.json().then(function (obj) {
+        uploadFile(files[0], obj.url)
+        foto.value = imageName
+      })
+    })
   }
 }
 
@@ -46,3 +57,14 @@ filtersContainer.addEventListener('wheel', function (e) {
   this.scrollLeft += (e.deltaY * 50)
   e.preventDefault()
 })
+
+function uploadFile (file, url) {
+  var xhr = new XMLHttpRequest()
+  xhr.open('PUT', url, true)
+  xhr.send(file)
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      console.log(`Uploaded ${file.name}. ${xhr.response}`)
+    }
+  }
+}

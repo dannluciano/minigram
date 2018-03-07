@@ -96,6 +96,7 @@ const naoAutenticado = ctx => {
     throw AuthError
   }
 }
+
 const opcoes = {
   engine: 'nunjucks'
 }
@@ -114,6 +115,7 @@ const rotas = [
   get('/publicar', [autenticado, publicarForm]),
   post('/publicar', [autenticado, publicar]),
   get('/publicacoes/:id', paginaPublicacao),
+  post('/publicacoes/:id/comentar', [autenticado, indexHandler]),
   get('/upload-url', getUploadURL),
   error('usuario.naoAutenticado', ctx => {
     return redirect('/entrar')
