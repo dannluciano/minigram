@@ -59,12 +59,15 @@ filtersContainer.addEventListener('wheel', function (e) {
 })
 
 function uploadFile (file, url) {
+  const btnPublicar = document.querySelector('#btn-publicar')
+  btnPublicar.disabled = true
   var xhr = new XMLHttpRequest()
   xhr.open('PUT', url, true)
   xhr.send(file)
   xhr.onload = () => {
     if (xhr.status === 200) {
       console.log(`Uploaded ${file.name}. ${xhr.response}`)
+      btnPublicar.disabled = false
     }
   }
 }

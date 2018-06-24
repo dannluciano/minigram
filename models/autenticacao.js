@@ -7,6 +7,7 @@ class Autenticacao {
       if (usuario.length === 1) {
         console.info('Usuario autenticado com sucesso')
         sessao.autenticado = true
+        sessao.userId = usuario[0].id
         sessao.usuario = usuario[0].nome
         sessao.email = usuario[0].email
         return true

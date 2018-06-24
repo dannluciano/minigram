@@ -34,7 +34,7 @@ const publicarForm = ctx => {
 }
 
 const publicar = async ctx => {
-  const usuarioLogado = 1
+  const usuarioLogado = ctx.session.userId
   const imageURL = Upload.getURL(ctx.data.foto)
   const novaPublicacao = new Publicacao(ctx.data, imageURL, usuarioLogado)
   if (await novaPublicacao.save()) {
@@ -46,6 +46,18 @@ const publicar = async ctx => {
 
 const paginaPublicacoes = async ctx => {
   const publicacoes = await Publicacao.getAll()
+  return render('publicacoes.njk', {publicacoes: publicacoes})
+}
+
+const paginaPublicacoesFeed = async ctx => {
+  const userId = ctx.session.userId
+  const publicacoes = await Publicacao.getAllFeedFromUser(userId)
+  return render('publicacoes.njk', {publicacoes: publicacoes})
+}
+
+const paginaPublicacoesDoUsuario = async ctx => {
+  const userId = ctx.session.userId
+  const publicacoes = await Publicacao.getAllFromUser(userId)
   return render('publicacoes.njk', {publicacoes: publicacoes})
 }
 
@@ -103,13 +115,13 @@ const opcoes = {
 
 const rotas = [
   [logger],
-  get('/', [autenticado, paginaPublicacoes]),
+  get('/', [autenticado, paginaPublicacoesFeed]),
   get('/entrar', [naoAutenticado, paginaAutenticacao]),
   post('/entrar', [naoAutenticado, iniciarAutenticacao]),
   post('/sair', [autenticado, finalizarAutenticacao]),
   get('/cadastrar', [naoAutenticado, usuarioCadastarForm]),
   post('/cadastrar', [naoAutenticado, usuarioCadastar]),
-  get('/perfil/', indexHandler),
+  get('/perfil/', [autenticado, paginaPublicacoesDoUsuario]),
   get('/perfil/:usuario', indexHandler),
   get('/pesquisar', indexHandler),
   get('/publicar', [autenticado, publicarForm]),

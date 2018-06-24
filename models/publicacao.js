@@ -16,7 +16,27 @@ class Publicacao {
 
   static async getAll () {
     try {
-      return await db.any('SELECT * FROM publicacoes ORDER BY id DESC LIMIT 20')
+      return await db.any('SELECT * FROM publicacoes ORDER BY id DESC')
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  static async getAllFromUser (userId) {
+    try {
+      return await db.any('SELECT * FROM publicacoes WHERE dono = $1 ORDER BY id DESC', [userId])
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  static async getAllFeedFromUser (userId) {
+    try {
+      return await db.any(`SELECT * FROM publicacoes 
+        JOIN usuarios ON (publicacoes.dono=usuarios.id) WHERE 
+        dono = $1 OR 
+        dono IN (SELECT seguindo FROM seguidores WHERE seguidor = $2) 
+        ORDER BY publicacoes.id DESC`, [userId, userId])
     } catch (e) {
       console.error(e)
     }
