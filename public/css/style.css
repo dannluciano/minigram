@@ -33,3 +33,7 @@ label > input[type=radio]:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
 #filtersContainer {
   position: relative;
 }
+
+.img-center {
+  object-fit: cover;
+}

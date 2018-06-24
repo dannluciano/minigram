@@ -14,9 +14,9 @@
           em {{ publicacao.localizacao }}
         {% endif %}
       </div>
-      <a href="/publicacoes/{{ publicacao.id }}">
+      <a href="/publicacoes/{{ publicacao.publicacao_id }}">
         <figure class="figure text-center">
-          <img src="{{ publicacao.foto }}" alt="" class="img-fluid rounded mx-auto {{ publicacao.filtro }}">
+          <img src="{{ publicacao.foto }}" alt="" class="img-fluid rounded mx-auto img-center {{ publicacao.filtro }}">
           <br />
           {% if publicacao.legenda %}
             <figcaption class="figure-caption text-justify mt-2">

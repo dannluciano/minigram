@@ -13,6 +13,13 @@ const logger = ctx => {
   ctx.log.info(`Pid ${process.pid} - ${ctx.method} ${ctx.url}`)
 }
 
+const locals = ctx => {
+  ctx.locals.usuario = ctx.session.usuario || 'anonymous'
+  ctx.locals.email = ctx.session.email || 'anonymous@anonymous'
+  ctx.locals.autenticado = ctx.session.autenticado || false
+  ctx.log.info(ctx.session.autenticado || false)
+}
+
 const indexHandler = ctx => {
   return render('base.njk', {title: 'Minigram'})
 }
@@ -55,8 +62,15 @@ const paginaPublicacoesFeed = async ctx => {
   return render('publicacoes.njk', {publicacoes: publicacoes})
 }
 
-const paginaPublicacoesDoUsuario = async ctx => {
+const paginaPublicacoesDoUsuarioAutenticado = async ctx => {
   const userId = ctx.session.userId
+  const publicacoes = await Publicacao.getAllFromUser(userId)
+  return render('publicacoes.njk', {publicacoes: publicacoes})
+}
+
+const paginaPublicacoesDoUsuario = async ctx => {
+  const nomeDoUsuario = ctx.params.usuario
+  const userId = await Usuario.getUserIdFromName(nomeDoUsuario)
   const publicacoes = await Publicacao.getAllFromUser(userId)
   return render('publicacoes.njk', {publicacoes: publicacoes})
 }
@@ -91,10 +105,7 @@ const getUploadURL = async ctx => {
 }
 
 const autenticado = ctx => {
-  if (ctx.session.autenticado) {
-    ctx.locals.usuario = ctx.session.usuario
-    ctx.locals.email = ctx.session.email
-  } else {
+  if (!ctx.session.autenticado) {
     const AuthError = new Error('User not authenticated')
     AuthError.code = 'usuario.naoAutenticado'
     throw AuthError
@@ -114,20 +125,21 @@ const opcoes = {
 }
 
 const rotas = [
-  [logger],
+  [logger, locals],
   get('/', [autenticado, paginaPublicacoesFeed]),
   get('/entrar', [naoAutenticado, paginaAutenticacao]),
   post('/entrar', [naoAutenticado, iniciarAutenticacao]),
   post('/sair', [autenticado, finalizarAutenticacao]),
   get('/cadastrar', [naoAutenticado, usuarioCadastarForm]),
   post('/cadastrar', [naoAutenticado, usuarioCadastar]),
-  get('/perfil/', [autenticado, paginaPublicacoesDoUsuario]),
-  get('/perfil/:usuario', indexHandler),
+  get('/perfil/', [autenticado, paginaPublicacoesDoUsuarioAutenticado]),
+  get('/perfil/:usuario', [autenticado, paginaPublicacoesDoUsuario]),
   get('/pesquisar', indexHandler),
   get('/publicar', [autenticado, publicarForm]),
   post('/publicar', [autenticado, publicar]),
   get('/publicacoes/:id', paginaPublicacao),
   post('/publicacoes/:id/comentar', [autenticado, indexHandler]),
+  get('/descobrir', [autenticado, paginaPublicacoes]),
   get('/upload-url', getUploadURL),
   error('usuario.naoAutenticado', ctx => {
     return redirect('/entrar')

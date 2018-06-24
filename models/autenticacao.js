@@ -23,6 +23,7 @@ class Autenticacao {
 
   static finalizar (sessao) {
     sessao.destroy()
+    console.info('Usuario des-autenticado com sucesso')
   }
 }
 

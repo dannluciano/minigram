@@ -8,6 +8,17 @@ class Usuario {
     this.erros = []
   }
 
+  static async getUserIdFromName (nome) {
+    try {
+      const usuarios = await db.any('SELECT * FROM usuarios WHERE nome = $1 LIMIT 1', [nome])
+      if (usuarios.length === 1) {
+        return usuarios[0].id
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   isValid () {
     if (this.nome === '') {
       this.erros.push({'msg': 'Nome não pode ser vazio'})

@@ -18,7 +18,10 @@
       <a class="navbar-brand" href="/">Minigram</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          {% if usuario %}
+          {% if autenticado %}
+            <li class="nav-item">
+              <a class="nav-link" href="/descobrir">Descobrir</a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/publicar">Publicar</a>
             </li>
@@ -39,7 +42,7 @@
 
         
         <ul class="navbar-nav ml-auto">
-          {% if usuario %}
+          {% if autenticado %}
             <li class="nav-item">
               <a class="nav-link" href="/perfil">Perfil (@{{usuario}})</a>
             </li>
@@ -51,7 +54,7 @@
             </li>
           {% else%}
             <li class="nav-item">
-              <a class="btn" href="/entrar">Entrar</a>
+              <a class="btn nav-link" href="/entrar">Entrar</a>
             </li>
           {% endif %}
         </ul>
@@ -114,6 +117,8 @@
     {% endblock %}
   </div>
   
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
   {% block js %}{% endblock %}
 </body>
 

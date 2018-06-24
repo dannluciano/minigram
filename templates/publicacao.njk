@@ -3,14 +3,14 @@
 <div class="publicacoes">
   <article class="publicacao mb-2">
     <div class="border border-top-0 border-right-0 border-left-0 mb-1 pt-1 pb-1">
-      <a href="/perfil/dannluciano">
-        <img src="/imgs/2.jpg" alt="" width="48px" heigth="48px" class="rounded-circle"> @dannluciano
+      <a href="/perfil/{{publicacao.nome}}">
+        <img src="/imgs/2.jpg" alt="" width="48px" heigth="48px" class="rounded-circle"> {{publicacao.nome}}
       </a>
       {% if publicacao.localizacao %} em {{ publicacao.localizacao }} {% endif %}
     </div>
-    <a href="/publicacoes/{{ publicacao.id }}">
+    <a href="/publicacoes/{{ publicacao.publicacao_id }}">
       <figure class="figure text-center">
-        <img src="{{ publicacao.foto }}" alt="" class="img-fluid rounded mx-auto {{ publicacao.filtro }}">
+        <img src="{{ publicacao.foto }}" alt="" class="img-fluid rounded mx-auto img-center {{ publicacao.filtro }}">
         <br />
         {% if publicacao.legenda %}
           <figcaption class="figure-caption text-justify mt-2">
