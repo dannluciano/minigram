@@ -92,8 +92,8 @@ const getUploadURL = async ctx => {
 
 const autenticado = ctx => {
   if (ctx.session.autenticado) {
-    ctx.res.locals.usuario = ctx.session.usuario
-    ctx.res.locals.email = ctx.session.email
+    ctx.locals.usuario = ctx.session.usuario
+    ctx.locals.email = ctx.session.email
   } else {
     const AuthError = new Error('User not authenticated')
     AuthError.code = 'usuario.naoAutenticado'
