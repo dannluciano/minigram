@@ -6,8 +6,8 @@ const Publicacao = require('./models/publicacao')
 const Autenticacao = require('./models/autenticacao')
 const Upload = require('./models/upload.js')
 
-const {get, post, error} = server.router
-const {render, status, redirect} = server.reply
+const { get, post, error } = server.router
+const { render, status, redirect } = server.reply
 
 const logger = ctx => {
   ctx.log.info(`Pid ${process.pid} - ${ctx.method} ${ctx.url}`)
@@ -21,7 +21,7 @@ const locals = ctx => {
 }
 
 const indexHandler = ctx => {
-  return render('base.njk', {title: 'Minigram'})
+  return render('base.njk', { title: 'Minigram' })
 }
 
 const usuarioCadastarForm = ctx => {
@@ -33,7 +33,7 @@ const usuarioCadastar = async ctx => {
   if (novoUsuario.isValid() && await novoUsuario.save()) {
     return redirect('/entrar')
   }
-  return render('usuario_novo.njk', {usuario: novoUsuario})
+  return render('usuario_novo.njk', { usuario: novoUsuario })
 }
 
 const publicarForm = ctx => {
@@ -47,38 +47,38 @@ const publicar = async ctx => {
   if (await novaPublicacao.save()) {
     return redirect('/')
   } else {
-    return render('publicar.njk', {publicacao: novaPublicacao})
+    return render('publicar.njk', { publicacao: novaPublicacao })
   }
 }
 
 const paginaPublicacoes = async ctx => {
   const publicacoes = await Publicacao.getAll()
-  return render('publicacoes.njk', {publicacoes: publicacoes})
+  return render('publicacoes.njk', { publicacoes: publicacoes })
 }
 
 const paginaPublicacoesFeed = async ctx => {
   const userId = ctx.session.userId
   const publicacoes = await Publicacao.getAllFeedFromUser(userId)
-  return render('publicacoes.njk', {publicacoes: publicacoes})
+  return render('publicacoes.njk', { publicacoes: publicacoes })
 }
 
 const paginaPublicacoesDoUsuarioAutenticado = async ctx => {
   const userId = ctx.session.userId
   const publicacoes = await Publicacao.getAllFromUser(userId)
-  return render('publicacoes.njk', {publicacoes: publicacoes})
+  return render('publicacoes.njk', { publicacoes: publicacoes })
 }
 
 const paginaPublicacoesDoUsuario = async ctx => {
   const nomeDoUsuario = ctx.params.usuario
   const userId = await Usuario.getUserIdFromName(nomeDoUsuario)
   const publicacoes = await Publicacao.getAllFromUser(userId)
-  return render('publicacoes.njk', {publicacoes: publicacoes})
+  return render('publicacoes.njk', { publicacoes: publicacoes })
 }
 
 const paginaPublicacao = async ctx => {
   const id = ctx.params.id
   const publicacao = await Publicacao.get(id)
-  return render('publicacao.njk', {publicacao: publicacao})
+  return render('publicacao.njk', { publicacao: publicacao })
 }
 
 const paginaAutenticacao = ctx => {
@@ -91,7 +91,7 @@ const iniciarAutenticacao = async ctx => {
   if (await Autenticacao.autenticar(nome, senha, ctx.session)) {
     return redirect('/')
   } else {
-    return render('autenticacao.njk', {erro: {msg: 'Usuario e/ou Senha Inválidos!'}})
+    return render('autenticacao.njk', { erro: { msg: 'Usuario e/ou Senha Inválidos!' } })
   }
 }
 
@@ -155,6 +155,6 @@ const rotas = [
 
 const init = async () => {
   const servidor = await server(opcoes, rotas)
-  nunjucks.configure('templates', {express: servidor.app})
+  nunjucks.configure('templates', { express: servidor.app })
 }
 init()
