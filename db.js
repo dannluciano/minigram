@@ -1,7 +1,27 @@
-const pgp = require('pg-promise')()
+const pgpOptions = {
+  connect (client, dc, useCount) {
+    const cp = client.connectionParameters
+    console.log('Connected to database:', cp.database)
+  },
+  disconnect (client, dc) {
+    const cp = client.connectionParameters
+    console.log('Disconnecting from database:', cp.database)
+  },
+  error (err, e) {
+    console.error(err)
+  }
 
-const databaseURL = process.env['DATABASE_URL'] || 'postgres://postgres:postgres@localhost/minigramdb'
+}
+const pgp = require('pg-promise')(pgpOptions)
 
-const db = pgp(databaseURL)
+const databaseURL = process.env.DATABASE_URL || 'postgres://postgres@localhost/minigramdb'
+
+let db = null
+try {
+  db = pgp(databaseURL)
+  db.connect()
+} catch (error) {
+  console.error(error)
+}
 
 module.exports = db

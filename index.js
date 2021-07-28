@@ -14,10 +14,11 @@ const logger = ctx => {
 }
 
 const locals = ctx => {
+  ctx.locals = {}
   ctx.locals.usuario = ctx.session.usuario || 'anonymous'
   ctx.locals.email = ctx.session.email || 'anonymous@anonymous'
   ctx.locals.autenticado = ctx.session.autenticado || false
-  ctx.log.info(ctx.session.autenticado || false)
+  ctx.log.info('Autenticado: ', ctx.session.autenticado || false)
 }
 
 const indexHandler = ctx => {
@@ -86,6 +87,7 @@ const paginaAutenticacao = ctx => {
 }
 
 const iniciarAutenticacao = async ctx => {
+  ctx.log.info('Iniciando Autenticação')
   const nome = ctx.data.nome
   const senha = ctx.data.senha
   if (await Autenticacao.autenticar(nome, senha, ctx.session)) {

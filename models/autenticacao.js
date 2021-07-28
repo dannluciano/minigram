@@ -3,7 +3,8 @@ const db = require('../db')
 class Autenticacao {
   static async autenticar (nome, senha, sessao) {
     try {
-      const usuario = await db.any(`SELECT * FROM usuarios WHERE nome = $1 AND senha = $2`, [nome, senha])
+      const usuario = await db.any('SELECT * FROM usuarios WHERE nome = $1 AND senha = $2', [nome, senha])
+      console.info('Teste')
       if (usuario.length === 1) {
         console.info('Usuario autenticado com sucesso')
         sessao.autenticado = true
