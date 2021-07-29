@@ -13,13 +13,13 @@ const pgpOptions = {
 
 }
 const pgp = require('pg-promise')(pgpOptions)
+pgp.pg.defaults.ssl = true
 
 const databaseURL = process.env.DATABASE_URL || 'postgres://postgres@localhost/minigramdb'
 
 let db = null
 try {
   db = pgp(databaseURL)
-  db.connect()
 } catch (error) {
   console.error(error)
 }
